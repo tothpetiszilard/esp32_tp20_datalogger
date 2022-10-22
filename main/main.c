@@ -7,9 +7,6 @@
 #include "diag.c"
 #include "file_operations.h"
 
-#include "ssd1306.h"
-#include "font8x8_basic.h"
-
 volatile uint16_t timeSec = 0;
 volatile uint8_t time10MSec = 0;
 char config[2][4] = {
