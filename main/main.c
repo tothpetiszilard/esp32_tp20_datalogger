@@ -28,9 +28,8 @@ void app_main()
     CAN_Open();
     while (1) 
     {
-        /*uint8_t exit = vwtp(config[0], outfile, false);
-        printf("VWTP exited with %d\n", exit);*/
-        Oled_PrintMG("25;0x025;0;0;",0);
+        uint8_t exit = vwtp(config[0], outfile, false);
+        printf("VWTP exited with %d\n", exit);
         vTaskDelay(6000 / portTICK_PERIOD_MS);
     }
 }
