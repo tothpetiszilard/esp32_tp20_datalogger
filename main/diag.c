@@ -699,10 +699,11 @@ uint8_t vwtp(char *config, FILE *log_file, uint8_t vwtpDebug)
     memmove(currentLogLine, kwp+5, 11);
     currentLogLine[11] = '\n';
     currentLogLine[12] = 0;
-    if (f_puts(currentLogLine, log_file) < 0)
+    printf("%s",currentLogLine);
+    /*if (f_puts(currentLogLine, log_file) < 0)
     {
       return 2; //filesystem error
-    }
+    }*/
   }
 
   // 5. ACK

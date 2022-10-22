@@ -44,8 +44,9 @@ void Oled_Init()
 	//ESP_LOGI(tag, "Panel is 128x32");
 	ssd1306_init(&dev, 128, 32);
 #endif // CONFIG_SSD1306_128x32
-
-    xTaskCreate(Oled_Cyclic, "Oled", 2048, NULL, 4, &CyclicTaskHdl);
+    ssd1306_contrast(&dev, 0xff);
+    xTaskCreate(Oled_Cyclic, "Oled", 2048, NULL, 5, &CyclicTaskHdl);
+	screenBuff[1] = '.';
 }
 
 void Oled_Print(char * str)
@@ -58,14 +59,50 @@ void Oled_Print(char * str)
     }
 }
 
+void Oled_PrintMG(char * str,uint8_t dataPos)
+{
+    char * buffPtr;
+    char * strPtr;
+    uint8_t grpCnt = 0;
+    buffPtr = screenBuff;
+    strPtr = str;
+	//uint8_t separatorIdx = 0;
+    if (dataPos != 0)
+    {
+        while (*strPtr != 0)
+        {
+            if (*strPtr++ == ';')
+            {
+                if (dataPos == grpCnt)
+                {
+                    break;
+                }
+                else
+                {
+                    grpCnt++;
+                }
+            }
+            //separatorIdx++;
+        }
+    }
+    while ((*strPtr != 0) && (*strPtr != ';') && (buffPtr <= &screenBuff[14]))
+    {
+        *buffPtr++ = *strPtr++;
+    }
+    while (buffPtr <= &screenBuff[13])
+    {
+        *buffPtr++ = ' ';
+    }
+    screenBuff[14] = 0;
+}
+
 static void Oled_Cyclic(void *pvParameters)
 {
     while(1)
     {
-        ssd1306_clear_screen(&dev, false);
-        ssd1306_contrast(&dev, 0xff);
-        //ssd1306_display_text_x3(&dev, 0, "Hello", 5, false);
-        ssd1306_display_text(&dev, 0, &screenBuff[0], sizeof(screenBuff), false);
+        //ssd1306_clear_screen(&dev, false);
+        ssd1306_display_text_x3(&dev, 0, &screenBuff[0], 6, false);
+        //ssd1306_display_text(&dev, 0, &screenBuff[0], 15, false);
         vTaskDelay(500 / portTICK_PERIOD_MS);
     }
     
