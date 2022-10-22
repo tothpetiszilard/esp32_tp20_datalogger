@@ -735,7 +735,7 @@ uint8_t vwtp(char *config, FILE *log_file, uint8_t vwtpDebug)
   }
   
   // create file header
-  file_header_p = file_header;
+  /*file_header_p = file_header;
   file_header_p += sprintf(file_header_p, "time;");
   for (i=1; i <= config[0]; i++)
   {
@@ -744,11 +744,11 @@ uint8_t vwtp(char *config, FILE *log_file, uint8_t vwtpDebug)
       file_header_p += sprintf(file_header_p,"%d %d;", config[i], j);
     }
   }
-  file_header_p += sprintf(file_header_p, "\n");
+  file_header_p += sprintf(file_header_p, "\n");*/
   
-  currentLogLine_p += sprintf(currentLogLine_p, "%d.%02d;", timeSec, time10MSec);
+  //currentLogLine_p += sprintf(currentLogLine_p, "%d.%02d;", timeSec, time10MSec);
 
-  units_buf_p += sprintf(units_buf_p, "s;");
+  //units_buf_p += sprintf(units_buf_p, "s;");
 
   while (1)
   {
@@ -764,19 +764,19 @@ uint8_t vwtp(char *config, FILE *log_file, uint8_t vwtpDebug)
     {
       currentLogLine_p += DecodeFrame(currentLogLine_p, &kwp[5]);
       
-      if (units_buf_p)
+      /*if (units_buf_p)
       {
         units_buf_p += DecodeUnits(units_buf_p, &kwp[5]);
-      }
+      }*/
     }
     else if ( (kwp[3] == 0x7f) && (kwp[4] == 0x21) ) //group response error
     {
-      currentLogLine_p += sprintf(currentLogLine_p, ";;;;;");
+      /*currentLogLine_p += sprintf(currentLogLine_p, ";;;;;");
       
       if (units_buf_p)
       {
         units_buf_p += sprintf(units_buf_p, ";;;;;");
-      }
+      }*/
     }
     else
     {
@@ -788,7 +788,7 @@ uint8_t vwtp(char *config, FILE *log_file, uint8_t vwtpDebug)
     if (groupPos == config[0])
     {
       //save units header to file
-      if (units_buf_p)
+      /*if (units_buf_p)
       {
         //write header to log file
         if ((f_puts("-------------\n\n", log_file) < 0) ||
@@ -806,7 +806,7 @@ uint8_t vwtp(char *config, FILE *log_file, uint8_t vwtpDebug)
           break;
         }
         units_buf_p = 0;
-      }
+      }*/
       
       *currentLogLine_p++ = '\n';
       *currentLogLine_p = 0;
@@ -816,7 +816,7 @@ uint8_t vwtp(char *config, FILE *log_file, uint8_t vwtpDebug)
         break;
       }
       currentLogLine_p = currentLogLine;
-      currentLogLine_p += sprintf(currentLogLine_p, "%d.%02d;", timeSec, time10MSec);
+      //currentLogLine_p += sprintf(currentLogLine_p, "%d.%02d;", timeSec, time10MSec);
       
       groupPos = 1;
       groupNumber = config[groupPos];

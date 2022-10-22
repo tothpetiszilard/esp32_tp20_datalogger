@@ -7,6 +7,9 @@
 #include "diag.c"
 #include "file_operations.h"
 
+#include "ssd1306.h"
+#include "font8x8_basic.h"
+
 volatile uint16_t timeSec = 0;
 volatile uint8_t time10MSec = 0;
 char config[2][4] = {
@@ -20,7 +23,8 @@ void app_main()
     FILE * outfile = setup_fs();
     //setup CAN interface
     CAN_Open();
-    while (1) {
+    while (1) 
+    {
         uint8_t exit = vwtp(config[0], outfile, false);
         printf("VWTP exited with %d\n", exit);
         vTaskDelay(6000 / portTICK_PERIOD_MS);
