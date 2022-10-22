@@ -7,6 +7,8 @@
 #include "diag.c"
 #include "file_operations.h"
 
+#include "oled.c"
+
 volatile uint16_t timeSec = 0;
 volatile uint8_t time10MSec = 0;
 char config[2][4] = {
@@ -19,6 +21,7 @@ void app_main()
     //setup SD card - for now it'll be stdout
     FILE * outfile = setup_fs();
     //setup CAN interface
+    Oled_Init();
     CAN_Open();
     while (1) 
     {
